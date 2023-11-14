@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,8 +11,7 @@ public class QuizLoadButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     [SerializeField] private TextMeshProUGUI TmpLocations;
     
     private string _loadPath = "";
-    private string _quizName;
-    private string[] _quizLocations;
+    private QuizData _quizData;
     
     private QuizLoadManager _quizLoadManager;
 
@@ -19,17 +19,21 @@ public class QuizLoadButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         _quizLoadManager = quizLoadManager;
         _loadPath = path;
-        if (!SerializationManager.GetQuizDetails(path, out _quizName, out _quizLocations))
+        
+        SerializationManager.SetQuizLoadPath(_loadPath);
+        _quizData = SerializationManager.LoadQuizData();
+        
+        if (_quizData == null)
             Destroy(gameObject);
-
-        TmpName.text = _quizName;
-        TmpLocations.text = _quizLocations.Length.ToString();
+        
+        TmpName.text = _quizData.Name;;
+        TmpLocations.text = _quizData.LocationsData.Length.ToString();
     }
 
     public void OnSelect(BaseEventData eventData)
     {
         _quizLoadManager.SelectedButton = GetComponent<Button>();
-        SerializationManager.SetQuizToLoadPath(_loadPath);
+        SerializationManager.SetQuizLoadPath(_loadPath);
         _quizLoadManager.EnableQuizLoadButtons(true);
     }
 

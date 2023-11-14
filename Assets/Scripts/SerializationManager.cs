@@ -7,9 +7,9 @@ public static class SerializationManager
 {
     private static readonly string SavePath = Application.persistentDataPath + "/saves/";
     
-    private static string _quizToLoadPath = "";
+    private static string _quizLoadPath = "";
 
-    public static void SetQuizToLoadPath(string path) => _quizToLoadPath = path;
+    public static void SetQuizLoadPath(string path) => _quizLoadPath = path;
     
     public static bool SaveExists(string saveName) => File.Exists(SavePath + saveName + ".json");
 
@@ -21,9 +21,9 @@ public static class SerializationManager
         File.WriteAllText(SavePath + saveData.Name + ".json", JsonUtility.ToJson(saveData));
     }
     
-    public static QuizData LoadQuiz() => LoadQuiz(_quizToLoadPath);
+    public static QuizData LoadQuizData() => LoadQuizData(_quizLoadPath);
 
-    private static QuizData LoadQuiz(string path)
+    private static QuizData LoadQuizData(string path)
     {
         try
         {
@@ -42,20 +42,6 @@ public static class SerializationManager
             return Array.Empty<string>();
         
         return Directory.GetFiles(SavePath);
-    }
-
-    public static bool GetQuizDetails(string quizPath, out string name, out string[] locations)
-    {
-        name = "";
-        locations = Array.Empty<string>();
-        
-        var quizData = LoadQuiz(quizPath);
-        if (quizData == null)
-            return false;
-        
-        name = quizData.Name;
-        locations = quizData.LocationsData.Select(l => l.Name).ToArray();
-        return true;
     }
     
     private static string GetLastQuizPath()

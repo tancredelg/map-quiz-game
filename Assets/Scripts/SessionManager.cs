@@ -37,7 +37,7 @@ public class SessionManager : MonoBehaviour
         EndPanel.SetActive(false);
 
         
-        QuizData = SerializationManager.LoadQuiz();
+        QuizData = SerializationManager.LoadQuizData();
         if (QuizData == null)
             return;
 

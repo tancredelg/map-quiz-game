@@ -23,6 +23,7 @@ public class EditorManager : SessionManager
         SavePanelGuessesSlider.maxValue = MaxGuessesAllowed + 1;
         SavePanelGuessesSlider.minValue = 1;
 
+        SavePanelTitleField.text = QuizData.Name;
         PauseText.text = "Session paused.\n\n<Space> to add & place a location\n<Enter> to set its name\n<Left Click> a location to remove it\n<Right Click> to toggle all names"; 
         
         UpdateLocationCountText();
@@ -102,7 +103,7 @@ public class EditorManager : SessionManager
         EndPanel.SetActive(true);
         PauseSession();
         
-        SavePanelTitleField.placeholder.GetComponent<TextMeshProUGUI>().text = QuizData.Name;
+        //SavePanelTitleField.placeholder.GetComponent<TextMeshProUGUI>().text = QuizData.Name;
         SavePanelGuessesSlider.value = QuizData.GuessesAllowed == 0 ? MaxGuessesAllowed + 1 : QuizData.GuessesAllowed;
     }
 
@@ -118,13 +119,6 @@ public class EditorManager : SessionManager
             Debug.LogError("The quiz needs a name.");
             return;
         }
-
-        if (SerializationManager.SaveExists(SavePanelTitleField.text))
-        {
-            Debug.LogError("That quiz name is taken.");
-            return;
-        }
-        
         
         QuizData.Name = SavePanelTitleField.text;
         

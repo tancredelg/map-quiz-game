@@ -29,7 +29,7 @@ public class QuizLoadManager : MonoBehaviour
 
     public void NewQuiz()
     {
-        SerializationManager.SetQuizToLoadPath("");
+        SerializationManager.SetQuizLoadPath("");
         SceneLoader.Instance.LoadScene("QuizMakerScene");
         Debug.Log("New QuizMakerScene");
     }
