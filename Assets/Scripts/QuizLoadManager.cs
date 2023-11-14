@@ -15,7 +15,7 @@ public class QuizLoadManager : MonoBehaviour
     private void Awake()
     {
         foreach (var path in SerializationManager.GetAllQuizPaths())
-            Instantiate(QuizLoadButton, transform).GetComponent<QuizLoadButton>().Init(path);
+            Instantiate(QuizLoadButton, transform).GetComponent<QuizLoadButton>().Init(path, this);
     }
 
     private void Update()

@@ -15,9 +15,9 @@ public class QuizLoadButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     
     private QuizLoadManager _quizLoadManager;
 
-    public void Init(string path)
+    public void Init(string path, QuizLoadManager quizLoadManager)
     {
-        _quizLoadManager = FindObjectOfType<QuizLoadManager>();
+        _quizLoadManager = quizLoadManager;
         _loadPath = path;
         if (!SerializationManager.GetQuizDetails(path, out _quizName, out _quizLocations))
             Destroy(gameObject);
@@ -35,7 +35,7 @@ public class QuizLoadButton : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void OnDeselect(BaseEventData eventData)
     {
-        _quizLoadManager.SelectedButton = null;
+        //_quizLoadManager.SelectedButton = null;
         //StartCoroutine(DisableButtonsCR());
     }
     
