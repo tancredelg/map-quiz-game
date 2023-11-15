@@ -852,6 +852,8 @@ MonoBehaviour:
   PauseFieldOfView: 130
   EndPanel: {fileID: 7645493174485827017}
   LocationPrefab: {fileID: 3208043392568364815, guid: 8c05943da90cfd34bb3175a77383089a, type: 3}
+  MessagePrefab: {fileID: 1796769795309154430, guid: 05a5f690120f52f4196fe6041de842a1, type: 3}
+  MessageContainer: {fileID: 0}
   LocationText: {fileID: 7645493174153939154}
   ScoreText: {fileID: 7645493173695416162}
   EndText: {fileID: 7645493173778871481}

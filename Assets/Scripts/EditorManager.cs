@@ -1,6 +1,7 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EditorManager : SessionManager
@@ -12,6 +13,7 @@ public class EditorManager : SessionManager
     [SerializeField] private GameObject SaveQuizButton;
     [SerializeField] private TMP_InputField SavePanelTitleField;
     [SerializeField] private Slider SavePanelGuessesSlider;
+    [FormerlySerializedAs("ConfirmSavePanelCancelButton")] [FormerlySerializedAs("ConfirmSavePanel")] [SerializeField] private GameObject ConfirmSaveCancelButton;
 
     private LocationManager _newLocation;
 
@@ -22,9 +24,16 @@ public class EditorManager : SessionManager
         SavePanelGuessesSlider.wholeNumbers = true;
         SavePanelGuessesSlider.maxValue = MaxGuessesAllowed + 1;
         SavePanelGuessesSlider.minValue = 1;
-
+        
         SavePanelTitleField.text = QuizData.Name;
-        PauseText.text = "Session paused.\n\n<Space> to add & place a location\n<Enter> to set its name\n<Left Click> a location to remove it\n<Right Click> to toggle all names"; 
+        if (QuizData.Name == "")
+            SavePanelTitleField.placeholder.GetComponent<TextMeshProUGUI>().text = "Enter a name for your quiz";
+        
+        PauseText.text = "Session paused.\n\n" +
+                         "<Space> to add & place a location\n" +
+                         "<Enter> to set its name\n" +
+                         "<Left Click> a location to remove it\n" +
+                         "<Right Click> to toggle all names"; 
         
         UpdateLocationCountText();
     }
@@ -90,6 +99,12 @@ public class EditorManager : SessionManager
 
     public override void ResumeSession()
     {
+        if (ConfirmSaveCancelButton.activeInHierarchy)
+        {
+            ConfirmSaveCancelButton.GetComponent<Button>().onClick.Invoke();
+            return;
+        }
+        
         base.ResumeSession();
         
         if (_newLocation && _newLocation.Placed && !_newLocation.Named)
@@ -103,7 +118,6 @@ public class EditorManager : SessionManager
         EndPanel.SetActive(true);
         PauseSession();
         
-        //SavePanelTitleField.placeholder.GetComponent<TextMeshProUGUI>().text = QuizData.Name;
         SavePanelGuessesSlider.value = QuizData.GuessesAllowed == 0 ? MaxGuessesAllowed + 1 : QuizData.GuessesAllowed;
     }
 
@@ -111,12 +125,12 @@ public class EditorManager : SessionManager
     {
         if (Locations.Count < 1)
         {
-            Debug.LogError("You need at least 1 location to save the quiz.");
+            PrintErrorMessage("Quiz not saved. You need at least 1 location to save the quiz.");
             return;
         }
         if (SavePanelTitleField.text == "")
         {
-            Debug.LogError("The quiz needs a name.");
+            PrintErrorMessage("Quiz not saved. You need to give you quiz a name.");
             return;
         }
         
@@ -129,6 +143,7 @@ public class EditorManager : SessionManager
         QuizData.LocationsData = Locations.Select(location => new QuizData.LocationData(location)).ToArray();
         
         SerializationManager.SaveQuiz(QuizData);
+        PrintMessage($"Quiz saved as '{QuizData.Name}'");
     }
 
     public void UpdateTextWithSlider(TMP_Text text)

@@ -1,18 +1,23 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SessionManager : MonoBehaviour
 {
     public bool Paused { get; protected set; }
-    
+
+    [FormerlySerializedAs("MessageText")]
     [Header("Session Manager")]
     [SerializeField] protected TextMeshProUGUI TimerText;
     [SerializeField] protected TextMeshProUGUI PauseText;
     [SerializeField] protected int PauseFieldOfView;
     [SerializeField] protected GameObject EndPanel;
     [SerializeField] protected GameObject LocationPrefab;
-    
+    [SerializeField] private GameObject MessagePrefab;
+    [SerializeField] private Transform MessageContainer;
+
     protected List<LocationManager> Locations;
     protected GlobeController GlobeController;
     protected QuizData QuizData;
@@ -30,16 +35,12 @@ public class SessionManager : MonoBehaviour
         foreach (var location in FindObjectsOfType<LocationManager>())
             location.Delete();
         
-        
         Locations = new List<LocationManager>();
         GlobeController = FindObjectOfType<GlobeController>();
         PauseText.transform.parent.gameObject.SetActive(false);
         EndPanel.SetActive(false);
 
-        
         QuizData = SerializationManager.LoadQuizData();
-        if (QuizData == null)
-            return;
 
         foreach (var locationData in QuizData.LocationsData)
         {
@@ -58,10 +59,10 @@ public class SessionManager : MonoBehaviour
             else
                 PauseSession();
         }
-        
+
         if (Paused || this is QuizManager { IsOver: true })
             return;
-        
+
         UpdateTimer();
     }
 
@@ -72,7 +73,7 @@ public class SessionManager : MonoBehaviour
         int min = (int)_time / 60;
         TimerText.text = (min < 10 ? "0" + min : min) + ":" + (sec < 10 ? "0" + sec : sec);
     }
-    
+
     public virtual void InteractWithLocation(LocationManager location) => location.ToggleText();
 
     public virtual void PauseSession()
@@ -90,5 +91,15 @@ public class SessionManager : MonoBehaviour
         GlobeController.RevertFOV();
         PauseText.transform.parent.gameObject.SetActive(false);
         EndPanel.SetActive(false);
+    }
+
+    public void PrintMessage(string message)
+    {
+        Instantiate(MessagePrefab, MessageContainer).GetComponent<Message>().SpawnMessage(message);
+    }
+    
+    public void PrintErrorMessage(string message)
+    {
+        Instantiate(MessagePrefab, MessageContainer).GetComponent<Message>().SpawnErrorMessage(message);
     }
 }

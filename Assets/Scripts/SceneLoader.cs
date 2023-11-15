@@ -24,6 +24,8 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+    public void ReloadScene() => LoadScene(SceneManager.GetActiveScene().name);
+    
     public void LoadScene(string sceneName) => StartCoroutine(LoadSceneAsync(sceneName));
 
     private static IEnumerator LoadSceneAsync(string sceneName)

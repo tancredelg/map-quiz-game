@@ -25,6 +25,9 @@ public static class SerializationManager
 
     private static QuizData LoadQuizData(string path)
     {
+        if (path == "")
+            return new QuizData();
+        
         try
         {
             string jsonData = File.ReadAllText(path);

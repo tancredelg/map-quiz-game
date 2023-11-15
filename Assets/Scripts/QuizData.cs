@@ -5,16 +5,9 @@ using UnityEngine.Serialization;
 [Serializable]
 public class QuizData
 {
-    public string Name;
-    public int GuessesAllowed;
-    public LocationData[] LocationsData;
-
-    public QuizData()
-    {
-        Name = "Untitled Quiz";
-        GuessesAllowed = 3;
-        LocationsData = Array.Empty<LocationData>();
-    }
+    public string Name = "";
+    public int GuessesAllowed = 3;
+    public LocationData[] LocationsData = Array.Empty<LocationData>();
 
     [Serializable]
     public class LocationData
