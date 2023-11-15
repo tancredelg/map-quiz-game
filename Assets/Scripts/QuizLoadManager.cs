@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class QuizLoadManager : MonoBehaviour
@@ -16,15 +17,6 @@ public class QuizLoadManager : MonoBehaviour
     {
         foreach (var path in SerializationManager.GetAllQuizPaths())
             Instantiate(QuizLoadButton, transform).GetComponent<QuizLoadButton>().Init(path, this);
-    }
-
-    private void Update()
-    {
-        if (SelectedButton == null && AreQuizLoadButtonsActive())
-            EnableQuizLoadButtons(false);
-        
-        if (SelectedButton != null && !AreQuizLoadButtonsActive())
-            EnableQuizLoadButtons(true);
     }
 
     public void NewQuiz()
@@ -46,11 +38,22 @@ public class QuizLoadManager : MonoBehaviour
         Debug.Log("Play QuizTakerScene");
     }
 
-    public void EnableQuizLoadButtons(bool enable)
+    public void EnableQuizLoadButtons()
     {
-        PlayButton.interactable = enable;
-        EditButton.interactable = enable;
+        PlayButton.interactable = true;
+        EditButton.interactable = true;
     }
 
-    private bool AreQuizLoadButtonsActive() => PlayButton.interactable && EditButton.interactable;
+    public bool DisableQuizLoadButtons()
+    {
+        if (EventSystem.current.currentSelectedGameObject == PlayButton.gameObject
+            || EventSystem.current.currentSelectedGameObject == EditButton.gameObject)
+            return false;
+        
+        PlayButton.interactable = false;
+        EditButton.interactable = false;
+        return true;
+    }
+
+    public bool AreQuizLoadButtonsActive() => PlayButton.interactable && EditButton.interactable;
 }

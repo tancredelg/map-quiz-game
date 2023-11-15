@@ -34,19 +34,22 @@ public class QuizLoadButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         _quizLoadManager.SelectedButton = GetComponent<Button>();
         SerializationManager.SetQuizLoadPath(_loadPath);
-        _quizLoadManager.EnableQuizLoadButtons(true);
+        _quizLoadManager.EnableQuizLoadButtons();
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
-        //_quizLoadManager.SelectedButton = null;
-        //StartCoroutine(DisableButtonsCR());
+        StartCoroutine(DisableButtonsCR());
     }
     
     IEnumerator DisableButtonsCR()
     {
-        yield return new WaitForSeconds(0.1f);
-        if (_quizLoadManager.SelectedButton == GetComponent<Button>()) yield break;
-        _quizLoadManager.EnableQuizLoadButtons(false);
+        yield return null;
+        
+        if (_quizLoadManager.SelectedButton != null && _quizLoadManager.SelectedButton != GetComponent<Button>())
+            yield break;
+        
+        if (_quizLoadManager.DisableQuizLoadButtons())
+            _quizLoadManager.SelectedButton = null;
     }
 }
