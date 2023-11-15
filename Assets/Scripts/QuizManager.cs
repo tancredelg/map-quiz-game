@@ -7,7 +7,7 @@ public class QuizManager : SessionManager
     public bool IsOver { get; private set; }
     
     [Header("Quiz Manager")]
-    [SerializeField] private TextMeshProUGUI LocationText;
+    [SerializeField] private TextMeshProUGUI LocationPromptText;
     [SerializeField] private TextMeshProUGUI ScoreText;
     [SerializeField] private TextMeshProUGUI EndText;
 
@@ -44,13 +44,14 @@ public class QuizManager : SessionManager
             GuessCurrentLocation(location);
     }
 
-    private void GuessCurrentLocation(LocationManager guess)
+    private void GuessCurrentLocation(LocationManager guessedLocation)
     {
         _totalGuessesMade++;
         
-        if (guess.Name == _currentLocation.Name)
+        if (guessedLocation.Name == _currentLocation.Name)
         {
-            guess.SetLocationAsGuessed(_guessesPerLocation < 1 ? 0 : (float)_guessesOnCurrent / _guessesPerLocation);
+            float guessRatio = _guessesPerLocation < 1 ? 0 : (float)_guessesOnCurrent / _guessesPerLocation;
+            guessedLocation.SetLocationAsGuessed(guessRatio);
             _correctGuesses++;
             UpdateScore();
             ChangeLocation();
@@ -58,7 +59,7 @@ public class QuizManager : SessionManager
         else
         {
             _guessesOnCurrent++;
-            StartCoroutine(guess.ShowIncorrectGuessCR());
+            StartCoroutine(guessedLocation.ShowIncorrectGuessCR());
             UpdateScore();
             
             if (_guessesPerLocation > 0 && _totalGuessesMade >= Locations.Count * _guessesPerLocation)
@@ -77,7 +78,7 @@ public class QuizManager : SessionManager
     {
         int guessesLeft = _guessesPerLocation - _guessesOnCurrent;
         string guessesLeftText = $"{(_guessesPerLocation == 0 ? "∞" : guessesLeft)} guess{(guessesLeft == 1 ? "" : "es")}";
-        LocationText.text = $"Click on {_currentLocation} ({guessesLeftText} left)";
+        LocationPromptText.text = $"Click on {_currentLocation} ({guessesLeftText} left)";
     }
 
     private void ChangeLocation()
