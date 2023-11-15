@@ -41,6 +41,9 @@ public class SessionManager : MonoBehaviour
         EndPanel.SetActive(false);
 
         QuizData = SerializationManager.LoadQuizData();
+        
+        if (QuizData.Name != "")
+            PrintMessage("Loaded " + QuizData.Name);
 
         foreach (var locationData in QuizData.LocationsData)
         {
