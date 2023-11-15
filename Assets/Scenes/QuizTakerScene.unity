@@ -706,6 +706,10 @@ PrefabInstance:
       propertyPath: m_text
       value: exit to menu
       objectReference: {fileID: 0}
+    - target: {fileID: 7645493173960930494, guid: 11d748e77657b2e49ae9b18e05018044, type: 3}
+      propertyPath: m_text
+      value: Session paused.
+      objectReference: {fileID: 0}
     - target: {fileID: 7645493174485827017, guid: 11d748e77657b2e49ae9b18e05018044, type: 3}
       propertyPath: m_IsActive
       value: 1

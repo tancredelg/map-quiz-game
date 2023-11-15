@@ -445,7 +445,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
+  m_fontSize: 32
   m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
@@ -499,7 +499,7 @@ GameObject:
   - component: {fileID: 7645493174153939153}
   - component: {fileID: 7645493174153939154}
   m_Layer: 5
-  m_Name: Location Text
+  m_Name: Location Prompt Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -553,7 +553,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Click on Montreal (2 guesses left)
+  m_text: <key information>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -854,7 +854,7 @@ MonoBehaviour:
   LocationPrefab: {fileID: 3208043392568364815, guid: 8c05943da90cfd34bb3175a77383089a, type: 3}
   MessagePrefab: {fileID: 1796769795309154430, guid: 05a5f690120f52f4196fe6041de842a1, type: 3}
   MessageContainer: {fileID: 0}
-  LocationText: {fileID: 7645493174153939154}
+  LocationPromptText: {fileID: 7645493174153939154}
   ScoreText: {fileID: 7645493173695416162}
   EndText: {fileID: 7645493173778871481}
 --- !u!1 &7645493175020217943
