@@ -13,7 +13,7 @@ public class EditorManager : SessionManager
     [SerializeField] private GameObject SaveQuizButton;
     [SerializeField] private TMP_InputField SavePanelTitleField;
     [SerializeField] private Slider SavePanelGuessesSlider;
-    [FormerlySerializedAs("ConfirmSavePanelCancelButton")] [FormerlySerializedAs("ConfirmSavePanel")] [SerializeField] private GameObject ConfirmSaveCancelButton;
+    [SerializeField] private GameObject ConfirmSaveCancelButton;
 
     private LocationManager _newLocation;
 

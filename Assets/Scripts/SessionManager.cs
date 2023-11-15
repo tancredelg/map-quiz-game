@@ -24,7 +24,7 @@ public class SessionManager : MonoBehaviour
 
     private float _time;
 
-    protected void Awake()
+    protected void Start()
     {
         Init();
     }
